@@ -46,11 +46,11 @@ void command(void)
 int expr(void)
 /* expr -> term |expr '+' term */
 /* expr -> term { '+' term } */
-{ 
+{
   int result = average();
   while (token == '+')
   { match('+');
-    result += expr();
+    result += average();
   }
   return result;
 }
@@ -59,9 +59,8 @@ int average(void)
 {
 	int result = term();
 	while (token == '@')
-	{	match('@');
-		int avg = average();
-		result = (avg + result) / 2;	
+	{match('@');
+    result = (result + term()) / 2;
 	}
 	return result;
 }
@@ -105,7 +104,7 @@ int number(void)
 }
 
 int digit(void)
-/* digit -> '0' | '1' | '2' | '3' | '4' 
+/* digit -> '0' | '1' | '2' | '3' | '4'
                 | '5' | '6' | '7' | '8' | '9' */
 { int result;
   if (isdigit(token))

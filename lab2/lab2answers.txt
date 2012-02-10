@@ -1,29 +1,32 @@
 2. 
-	a. command -> expr
+	a. command -> expr '\n'
 		expr -> term '+' expr | term
 		term -> factor | factor * term
 		factor -> '(' expr ')' | number
-		number -> digit { digit }
+		number -> digit number | digit
 		digit -> '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 		 
 	b. * has higher precedence then +
-	c. ( 5 + ( 2 * 10 ) )
-		( 5 + ( 2 + 10 ) )
+	c.  5 + ( 2 * 10 )
+		  5 + ( 2 + 10 ) 
 	d. command => expr
-		expr => expr '+' term
-		expr => term
-		term => factor
-		factor => number
-		number => digit
-		digit => 5
-		term => term * factor
-		term => factor
-		factor => number
-		number => digit
-		digit => 2
-		factor => number
-		number => digit
-		digit => 10
+		expr => term '+' expr
+    term + expr => factor + expr
+    factor + expr => number + expr
+    number + expr => digit + expr
+    digit + expr => 5 + expr
+    5 + expr => 5 + term
+    5 + term => 5 + factor * term
+    5 + factor * term => 5 + number * term
+    5 + number * term => 5 + digit * term
+    5 + digit * term => 5 + 2 * term
+    5 + 2 * term => 5 + 2 * factor
+    5 + 2 * factor => 5 + 2 * number
+    5 + 2 * number => 5 + 2 * digit number
+    5 + 2 * digit => 5 + 2 * 1 number
+    5 + 2 * 1 number => 5 + 2 * 1 digit
+    5 + 2 * 1 digit => 5 + 2 * 10
+
 3. 	
 	a.	command -> expr
 		expr -> term '+' expr | term
@@ -50,19 +53,57 @@ Part 2
 			
 		b. * has the highest precedence followed by +
 		c. 1. 5 + (2 * 10)
-			2.	( 5 + (2 + 10) )
-		d. command  => expr 'n'
-			expr => expr '+' term
-			
-	3.	a. command -> expr '\n'
+			2.	( 5 + 2 )+ 10
+		d. command => expr
+		expr => expr + term
+    expr + term => term + term
+    term + term => factor + term
+    factor + term => number + term
+    number + term => digit + term
+    digit + term => 5 + term
+    5 + term => 5 + term  * factor
+    5 + term * factor => 5 + factor * factor
+    5 + factor * factor => 5 + number * factor
+    5 + number * factor => 5 + digit * factor
+    5 + digit * factor => 5 + 2 * factor
+    5 + 2 * factor => 5 + 2 * number
+    5 + 2 * number => 5 + 2 * digit number
+    5 + 2 * digit number => 5 + 2 * 1 number
+    5 + 2 * 1 number => 5 + 2 * 1 digit
+    5 + 2 * 1 digit => 5 + 2 * 10			
+	  
+    5 + 2 + 10
+    command => expr
+		expr => expr + term
+    expr + term => expr + term + term
+    expr + term + term => term + term + term
+    term + term + term => factor + term + term
+    factor + term + term => number + term + term
+    number + term + term => digit + term + term
+    digit + term + term => 5 + term + term
+    5 + term + term => 5 + factor + term
+    5 + factor + term => 5 + number + term
+    5 + number + term => 5 + digit + term
+    5 + digit + term => 5 + 2 + term
+    5 + 2 + term => 5 + 2 + factor
+    5 + 2 + factor => 5 + 2 + number
+    5 + 2 + number => 5 + 2 + digit number
+    5 + 2 + digit number => 5 + 2 + 1 number
+    5 + 2 + 1 number => 5 + 2 + 1 digit
+    5 + 2 + 1 digit => 5 + 2 + 10
+
+    3.	a. command -> expr '\n'
 			expr -> expr '+' average | average
 			average -> average '@' term | term
 			term -> term '*' factor | factor
 			factor -> '(' expr ')' | number
 			number -> digit { digit }
 			digit -> '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-		b. ( 10 + ( 20 + 30 ) )
-			( ( 10 @ (20 * 2) ) @ 6 )
-			(2 @ 10) + ( 51 @ 5 )
-		c. left associative
+		b. ( 10 + 20 ) + 30 
+			 (10 @ (20 * 2)) @ 6 
+			 (2 @ 10) + ( 51 @ 5 )
+		c.  left associative
+
 	4. see Fig4_12.c
+
+  5. /(int)\s(.*);/
